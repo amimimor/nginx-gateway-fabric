@@ -56,6 +56,10 @@ build-nginx-image: check-for-docker ## Build the custom nginx image
 build-nginx-plus-image: check-for-docker ## Build the custom nginx plus image
 	docker build --platform linux/$(GOARCH) $(strip $(NGINX_DOCKER_BUILD_OPTIONS)) $(strip $(NGINX_DOCKER_BUILD_PLUS_ARGS))  -f build/Dockerfile.nginxplus -t $(strip $(NGINX_PLUS_PREFIX)):$(strip $(TAG)) .
 
+.PHONY: build-private-nginx-image
+build-private-nginx-image: check-for-docker ## Build the custom nginx image
+	docker build --platform linux/$(GOARCH) $(strip $(NGINX_DOCKER_BUILD_OPTIONS)) -f build/Dockerfile.private -t $(strip $(NGINX_PREFIX)):$(strip $(TAG)) .
+
 .PHONY: check-for-docker
 check-for-docker: ## Check if Docker is installed
 	@docker -v || (code=$$?; printf "\033[0;31mError\033[0m: there was a problem with Docker\n"; exit $$code)
